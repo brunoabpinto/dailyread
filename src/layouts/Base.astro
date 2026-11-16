@@ -99,6 +99,8 @@ const pageTitle = title ? `${title} · Daily Read` : 'Daily Read';
   }
   #theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
   * { box-sizing: border-box; }
+  /* Scale all rem sizes so body text (1.125rem) is 20px. */
+  html { font-size: calc(100% * 20 / 18); }
   body {
     margin: 0;
     background: var(--bg);
