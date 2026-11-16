@@ -16,6 +16,7 @@ Built with [Astro](https://astro.build), deployed on Netlify. Posts are picked a
 | `npm install`      | Install dependencies                            |
 | `npm run dev`      | Start the dev server at `localhost:4321`        |
 | `npm run new-post` | Find a new article and save it as a post        |
+| `npm run new-post:push`   | Same, then commit and push the post |
 | `npm run build`    | Build the site to `./dist/`                     |
 | `npm run preview`  | Preview the build locally                       |
 

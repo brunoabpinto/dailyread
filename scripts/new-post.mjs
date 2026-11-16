@@ -1,14 +1,16 @@
 #!/usr/bin/env node
 // Picks one recent, free, exceptional article with Claude Code and saves it as a new post.
-// Usage: npm run new-post
+// Usage: npm run new-post                 save the post only
+//        npm run new-post:push            also commit and push it
 
-import { spawn } from 'node:child_process';
+import { spawn, execFileSync } from 'node:child_process';
 import { readdir, readFile, writeFile, mkdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 
 const POSTS_DIR = path.resolve('src/content/posts');
 const TOPICS = ['science', 'culture', 'history'];
+const push = process.argv.includes('--push');
 
 const now = new Date();
 const today = now.toISOString().slice(0, 10);
@@ -58,6 +60,7 @@ console.log('Finding an article… (this can take a few minutes)');
 
 const result = await runClaude([
   '-p', prompt,
+  '--model', 'sonnet',
   '--output-format', 'json',
   '--json-schema', JSON.stringify(schema),
   '--allowedTools', 'WebSearch', 'WebFetch',
@@ -100,6 +103,13 @@ ${a.summary.trim()}
 await writeFile(file, md);
 console.log(`Saved ${path.relative(process.cwd(), file)}\n  ${a.title} — ${a.source}\n  ${a.url}`);
 console.log(cover ? `  cover: ${cover}` : '  no cover image found (topic placeholder will be shown)');
+
+if (push) {
+  const git = (...args) => execFileSync('git', args, { stdio: 'inherit' });
+  git('add', '--', dir);
+  git('commit', '-m', `Add post: ${a.title}`, '--', dir);
+  git('push');
+}
 
 // Downloads the article's preview image (og:image / twitter:image) as cover.<ext>.
 // Returns the filename, or null if there is none or it can't be fetched.
