@@ -1,0 +1,88 @@
+---
+import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const d = post.data;
+const fmt = (date: Date) =>
+  date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+---
+
+<Base title={d.title} description={d.why}>
+  <article>
+    {d.cover
+      ? <Image src={d.cover} alt="" width={680} class="cover" />
+      : <div class={`cover placeholder ${d.topic}`} />}
+    <div class="meta">
+      <span>{fmt(d.date)}</span>
+      <span class={`topic ${d.topic}`}>{d.topic}</span>
+    </div>
+    <h1>{d.title}</h1>
+    <div class="meta">
+      <span>{d.source}</span>
+      {d.author && <span>{d.author}</span>}
+      <span>Published {fmt(d.published)}</span>
+    </div>
+
+    <aside class="why">
+      <strong>Why read it</strong>
+      <p>{d.why}</p>
+    </aside>
+
+    <div class="summary">
+      <Content />
+    </div>
+
+    <a class="cta" href={d.url} target="_blank" rel="noopener">Read the original at {d.source} ↗</a>
+    <p class="back"><a href="/">← All articles</a></p>
+  </article>
+</Base>
+
+<style>
+  h1 { font-size: 2.2rem; line-height: 1.15; margin: 0.5rem 0 0.75rem; font-weight: 600; }
+  .why {
+    margin: 2rem 0;
+    padding: 1rem 1.25rem;
+    border-left: 3px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 6%, transparent);
+  }
+  .why strong {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+  }
+  .why p { margin: 0.25rem 0 0; font-style: italic; }
+  .cta {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.7rem 1.1rem;
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    text-decoration: none;
+  }
+  .cta:hover { background: var(--accent); color: var(--bg); }
+  .cover {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 1.25rem;
+  }
+  .placeholder.science { background: var(--science); }
+  .placeholder.culture { background: var(--culture); }
+  .placeholder.history { background: var(--history); }
+  .back { font-family: var(--sans); font-size: 0.85rem; margin-top: 2.5rem; }
+</style>

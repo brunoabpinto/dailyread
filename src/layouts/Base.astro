@@ -1,0 +1,159 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+const { title, description = 'One exceptional free article, every day.' } = Astro.props;
+const pageTitle = title ? `${title} · Daily Read` : 'Daily Read';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{pageTitle}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Inter:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script is:inline>
+      try {
+        const t = localStorage.getItem('theme');
+        if (t) document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <header class="site">
+      <a href="/" class="brand">Daily Read</a>
+      <span class="tagline">One exceptional free article, every day.</span>
+      <button id="theme-toggle" type="button" aria-label="Toggle light/dark theme">◐</button>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site">Science · Culture · History</footer>
+    <script is:inline>
+      document.getElementById('theme-toggle').addEventListener('click', () => {
+        const root = document.documentElement;
+        const current =
+          root.dataset.theme ||
+          (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        const next = current === 'dark' ? 'light' : 'dark';
+        root.dataset.theme = next;
+        try { localStorage.setItem('theme', next); } catch {}
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --bg: #faf8f4;
+    --text: #1d1b18;
+    --muted: #6b665e;
+    --line: #e4dfd6;
+    --accent: #9a3b26;
+    --science: #2f6b5a;
+    --culture: #7a4a8c;
+    --history: #9a6a1f;
+    --serif: 'Newsreader', Georgia, serif;
+    --sans: 'Inter', system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) {
+      --bg: #151412;
+      --text: #ece8e1;
+      --muted: #9b958b;
+      --line: #2c2a26;
+      --accent: #e08a6d;
+      --science: #7cc4ad;
+      --culture: #c79bd8;
+      --history: #e0b56a;
+    }
+  }
+  :root[data-theme='dark'] {
+    --bg: #151412;
+    --text: #ece8e1;
+    --muted: #9b958b;
+    --line: #2c2a26;
+    --accent: #e08a6d;
+    --science: #7cc4ad;
+    --culture: #c79bd8;
+    --history: #e0b56a;
+  }
+  #theme-toggle {
+    margin-left: auto;
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    width: 2rem;
+    height: 2rem;
+    color: var(--text);
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  #theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--serif);
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+  main, header.site, footer.site {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+  header.site {
+    padding-top: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 1rem;
+  }
+  .brand {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .tagline { font-family: var(--sans); font-size: 0.85rem; color: var(--muted); }
+  footer.site {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    padding-bottom: 3rem;
+    border-top: 1px solid var(--line);
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  a { color: var(--accent); }
+  .meta {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.75rem;
+    align-items: center;
+  }
+  .topic {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+  }
+  .topic.science { color: var(--science); }
+  .topic.culture { color: var(--culture); }
+  .topic.history { color: var(--history); }
+</style>

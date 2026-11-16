@@ -1,0 +1,69 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+
+const posts = (await getCollection('posts')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
+---
+
+<Base>
+  {posts.length === 0 && <p class="empty">No posts yet. Run <code>npm run new-post</code>.</p>}
+
+  <ul>
+    {posts.map((p) => (
+      <li>
+        {p.data.cover
+          ? <Image src={p.data.cover} alt="" width={680} class="cover" />
+          : <div class={`cover placeholder ${p.data.topic}`} />}
+        <div class="meta">
+          <span>{fmt(p.data.date)}</span>
+          <span class={`topic ${p.data.topic}`}>{p.data.topic}</span>
+          <span>{p.data.source}</span>
+        </div>
+        <a href={`/posts/${p.id}/`} class="title">{p.data.title}</a>
+        <p class="why">{p.data.why}</p>
+        <a class="original" href={p.data.url} target="_blank" rel="noopener">Original article ↗</a>
+      </li>
+    ))}
+  </ul>
+</Base>
+
+<style>
+  /* Whole card is clickable: the title link stretches over its card. */
+  li { position: relative; }
+  .title::after { content: ''; position: absolute; inset: 0; }
+  .original { position: relative; z-index: 1; }
+  li:hover .title { color: var(--accent); }
+
+  ul { list-style: none; padding: 0; margin: 0; }
+  li { padding: 1.5rem 0; border-bottom: 1px solid var(--line); }
+  li:first-child { padding-top: 0; }
+  .title {
+    display: block;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 2.2rem;
+    line-height: 1.15;
+    font-weight: 600;
+    margin: 0.5rem 0;
+  }
+  .why { font-size: 1.2rem; font-style: italic; margin: 1.25rem 0; }
+  .original { font-family: var(--sans); font-size: 0.85rem; }
+  .empty { color: var(--muted); }
+  .cover {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+  }
+  .placeholder.science { background: var(--science); }
+  .placeholder.culture { background: var(--culture); }
+  .placeholder.history { background: var(--history); }
+</style>
