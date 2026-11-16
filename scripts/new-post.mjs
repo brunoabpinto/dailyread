@@ -18,11 +18,15 @@ const today = now.toISOString().slice(0, 10);
 // Collect past posts to avoid duplicates.
 await mkdir(POSTS_DIR, { recursive: true });
 const pastUrls = [];
+const sourceCounts = {};
 for (const name of (await readdir(POSTS_DIR, { recursive: true })).filter((f) => f.endsWith('.md'))) {
   const text = await readFile(path.join(POSTS_DIR, name), 'utf8');
   const url = text.match(/^url:\s*"?(.+?)"?\s*$/m)?.[1];
+  const source = text.match(/^source:\s*"?(.+?)"?\s*$/m)?.[1];
   if (url) pastUrls.push(url);
+  if (source) sourceCounts[source] = (sourceCounts[source] ?? 0) + 1;
 }
+const pastSources = Object.entries(sourceCounts).sort((a, b) => b[1] - a[1]);
 
 const prompt = `Today is ${today}. Find one exceptional article or essay, freely accessible (no paywall), published in the last two weeks (on or after ${daysAgo(14)}). It can be about any of these topics: ${TOPICS.join(', ')}. Pick whichever is the best article you find.
 
@@ -32,6 +36,10 @@ Prefer long-form, thoughtful writing from reputable publications, magazines, jou
 
 Do NOT pick any of these already-featured URLs:
 ${pastUrls.map((u) => `- ${u}`).join('\n') || '- (none yet)'}
+
+Publications already featured, with how many times:
+${pastSources.map(([s, n]) => `- ${s} (${n})`).join('\n') || '- (none yet)'}
+Prefer a publication that is not on this list, to keep the sources varied. Repeating one is allowed only if its article is clearly the best you can find, and the more often it appears above, the higher that bar.
 
 Return:
 - title: the article's exact title
