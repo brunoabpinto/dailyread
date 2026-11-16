@@ -17,5 +17,3 @@ Riskin argues that the idea of creative agency in nature was threatening to powe
 The essay then turns to recent research that gives Lamarckian themes new life. It cites heritable epigenetic changes in damselfish, coral, guinea pigs and baboons. It also covers Martha Muñoz's work on anole lizards, niche construction, the extended evolutionary synthesis, and animal culture such as the hunting traditions of humpback whales.
 
 Riskin concludes that organisms are active, self-making and world-making. She finds hope in this picture, because creativity and the power to transform cannot be fully controlled or monopolised.
-
-*Note: I read the article page through a fetch agent and confirmed the 2 November 2026 date and that no paywall appeared. The fetched text showed no canonical tag, so the URL is the one that was read. The summary comes from the agent's report of the article, not from my own reading.*

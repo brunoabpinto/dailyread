@@ -39,7 +39,9 @@ Return:
 - published: publication date, YYYY-MM-DD
 - topic: one of ${TOPICS.join(', ')}
 - why: 1–2 sentences on why it is worth reading
-- summary: a faithful summary of the article in 3–5 short paragraphs of Markdown, in English, written in your own words (no long quotes).`;
+- summary: a faithful summary of the article in 3–5 short paragraphs of Markdown, in English, written in your own words (no long quotes).
+
+The summary is published as-is for readers. It must contain only the summary: no notes, caveats or comments about how you found, fetched or verified the article.`;
 
 const schema = {
   type: 'object',
