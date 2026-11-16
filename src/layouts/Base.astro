@@ -31,7 +31,12 @@ const pageTitle = title ? `${title} · Daily Read` : 'Daily Read';
     <header class="site">
       <a href="/" class="brand">Daily Read</a>
       <span class="tagline">One exceptional free article, every day.</span>
-      <button id="theme-toggle" type="button" aria-label="Toggle light/dark theme">◐</button>
+      <button id="theme-toggle" type="button" aria-label="Toggle light/dark theme">
+        <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" />
+          <path d="M12 2a10 10 0 0 0 0 20z" fill="currentColor" />
+        </svg>
+      </button>
     </header>
     <main>
       <slot />
@@ -94,7 +99,9 @@ const pageTitle = title ? `${title} · Daily Read` : 'Daily Read';
     width: 48px;
     height: 48px;
     color: var(--text);
-    font-size: 24px;
+    display: grid;
+    place-items: center;
+    padding: 0;
     cursor: pointer;
   }
   #theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
