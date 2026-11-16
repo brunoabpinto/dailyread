@@ -22,7 +22,7 @@ const fmt = (date: Date) =>
       : <div class={`cover placeholder ${d.topic}`} />}
     <div class="meta">
       <span>{fmt(d.date)}</span>
-      <span class={`topic ${d.topic}`}>{d.topic}</span>
+      <a href={`/${d.topic}/`} class={`topic ${d.topic}`}>{d.topic}</a>
     </div>
     <h1>{d.title}</h1>
     <div class="meta">
@@ -81,8 +81,5 @@ const fmt = (date: Date) =>
     border-radius: 6px;
     margin-bottom: 1.25rem;
   }
-  .placeholder.science { background: var(--science); }
-  .placeholder.culture { background: var(--culture); }
-  .placeholder.history { background: var(--history); }
   .back { font-family: var(--sans); font-size: 0.85rem; margin-top: 2.5rem; }
 </style>

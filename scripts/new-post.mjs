@@ -9,7 +9,7 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 
 const POSTS_DIR = path.resolve('src/content/posts');
-const TOPICS = ['science', 'culture', 'history'];
+const TOPICS = JSON.parse(await readFile(path.resolve('src/topics.json'), 'utf8')).map((t) => t.key);
 const push = process.argv.includes('--push');
 
 const now = new Date();
@@ -24,7 +24,9 @@ for (const name of (await readdir(POSTS_DIR, { recursive: true })).filter((f) =>
   if (url) pastUrls.push(url);
 }
 
-const prompt = `Today is ${today}. Find one exceptional article or essay, freely accessible (no paywall), published in the last two weeks (on or after ${daysAgo(14)}). It can be about science, culture or history — pick whichever is the best article you find.
+const prompt = `Today is ${today}. Find one exceptional article or essay, freely accessible (no paywall), published in the last two weeks (on or after ${daysAgo(14)}). It can be about any of these topics: ${TOPICS.join(', ')}. Pick whichever is the best article you find.
+
+It must be evergreen: still worth reading in a year. Avoid news, hot takes, and pieces tied to current events, product launches or politics.
 
 Prefer long-form, thoughtful writing from reputable publications, magazines, journals or independent writers. Verify the article exists, is free to read, and its publication date, by fetching it.
 

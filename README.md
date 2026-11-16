@@ -1,6 +1,6 @@
 # Daily Read
 
-One exceptional, free-to-read article every day — science, culture or history — with a summary, why it's worth reading, and a link to the original.
+One exceptional, free-to-read, evergreen article every day, with a summary, why it's worth reading, and a link to the original. Topics are defined in `src/topics.json`.
 
 Built with [Astro](https://astro.build), deployed on Netlify. Posts are picked and summarised by [Claude Code](https://claude.com/claude-code).
 
@@ -57,7 +57,7 @@ source: "Publication"
 url: "https://…"
 published: 2026-11-06       # article's publication date
 date: 2026-11-16T09:20:00Z  # when the post was added (used for ordering)
-topic: science              # science | culture | history
+topic: science              # a key from src/topics.json
 why: "Why it's worth reading."
 ---
 

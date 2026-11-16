@@ -1,0 +1,10 @@
+[
+  { "key": "science",    "label": "Science",    "light": "#2f6b5a", "dark": "#7cc4ad" },
+  { "key": "culture",    "label": "Culture",    "light": "#7a4a8c", "dark": "#c79bd8" },
+  { "key": "history",    "label": "History",    "light": "#9a6a1f", "dark": "#e0b56a" },
+  { "key": "tech",       "label": "Tech",       "light": "#2f5d8a", "dark": "#7fb0e0" },
+  { "key": "philosophy", "label": "Philosophy", "light": "#5a5a7a", "dark": "#a9a9d0" },
+  { "key": "nature",     "label": "Nature",     "light": "#4a7a2a", "dark": "#9bcf6e" },
+  { "key": "art",        "label": "Art",        "light": "#a03a5a", "dark": "#e88aa8" },
+  { "key": "design",     "label": "Design",     "light": "#3d3a36", "dark": "#c8c4bc" }
+]

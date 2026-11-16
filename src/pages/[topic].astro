@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PostList from '../components/PostList.astro';
+import topics from '../topics.json';
+
+export function getStaticPaths() {
+  return topics.map((t) => ({ params: { topic: t.key }, props: { label: t.label } }));
+}
+
+const { topic } = Astro.params;
+const { label } = Astro.props;
+const posts = await getCollection('posts', (p) => p.data.topic === topic);
+---
+
+<Base title={label} current={topic}>
+  <PostList posts={posts} />
+</Base>
