@@ -49,8 +49,10 @@ const pageTitle = title ? `${title} · Daily Read` : 'Daily Read';
   </head>
   <body>
     <header class="site">
-      <a href="/" class="brand">Daily Read</a>
-      <span class="tagline">One exceptional free article, every day.</span>
+      <a href="/" class="brand">
+        <img class="logo-light" src="/logo-light.png" alt="Daily Read" width="816" height="187" />
+        <img class="logo-dark" src="/logo-dark.png" alt="Daily Read" width="816" height="187" />
+      </a>
       <button id="theme-toggle" type="button" aria-label="Toggle light/dark theme">
         <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
           <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" />
@@ -147,13 +149,16 @@ const pageTitle = title ? `${title} · Daily Read` : 'Daily Read';
     align-items: baseline;
     gap: 0.25rem 1rem;
   }
-  .brand {
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: var(--text);
-    text-decoration: none;
+  .brand { display: inline-flex; align-self: center; }
+  /* Wordmark image; light/dark versions follow the theme. */
+  .brand img { display: block; height: 2.08rem; width: auto; }
+  .logo-dark { display: none !important; }
+  :root[data-theme='dark'] .logo-light { display: none !important; }
+  :root[data-theme='dark'] .logo-dark { display: block !important; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) .logo-light { display: none !important; }
+    :root:not([data-theme='light']) .logo-dark { display: block !important; }
   }
-  .tagline { font-family: var(--sans); font-size: 0.85rem; color: var(--muted); }
   nav.topics {
     flex-basis: 100%;
     display: flex;
